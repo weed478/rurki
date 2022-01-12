@@ -1,0 +1,93 @@
+\documentclass[12pt,a4paper]{mwart}
+
+\usepackage{lmodern}
+\usepackage[T1]{polski}
+\usepackage[utf8]{inputenc}
+
+\usepackage[a4paper,
+            tmargin=2cm,
+            bmargin=2cm,
+            lmargin=2cm,
+            rmargin=2cm,
+            bindingoffset=0cm]{geometry}
+
+\usepackage{tocloft}
+\usepackage{hyperref}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{siunitx}
+
+\usepackage{graphicx}
+\usepackage{subfig}
+\usepackage{float}
+\usepackage{booktabs}
+
+\hypersetup{
+    colorlinks,
+    citecolor=black,
+    filecolor=black,
+    linkcolor=black,
+    urlcolor=black
+}
+
+\begin{document}
+
+\title{Wibracje akustyczne warstwy materiału}
+\author{Jakub Karbowski}
+\date{\today}
+\maketitle
+
+
+\section{Sformułowanie silne}
+\begin{align}
+    \label{eq:main}
+    -\frac{\mathrm{d}^2u}{\mathrm{d}x^2} - u &= \sin x \\
+    \label{eq:war1}
+    u(0) &= 0 \\
+    \label{eq:war2}
+    \frac{\mathrm{d}u(2)}{\mathrm{d}x} - u(2) &= 0 \\
+    [0,2] \ni x &\to u(x) \in \mathbb{R} \nonumber
+\end{align}
+Poszukiwana funkcja to $u(x)$.
+
+\section{Sformułowanie wariacyjne}
+Równanie \eqref{eq:war1} to zerowy warunek Dirichleta
+a~\eqref{eq:war2} to warunek Robina.
+Za przestrzeń~$V$ 
+przyjmujemy funkcje~$v(x)$ zerujące się na lewym brzegu
+$v(0)=0$.
+Z~\eqref{eq:war2} dostajemy~$u'(2)=u(2)$.
+\begin{align*}
+    -u'' - u &= \sin x \\
+    -u''v - uv &= v\sin x \\
+    \underbrace{-\int_0^2u''v\mathrm{d}x}_\text{przez części} - \int_0^2uv\mathrm{d}x &= \int_0^2v\sin x\mathrm{d}x \\
+    -u'v|_0^2 + \int_0^2u'v'\mathrm{d}x - \int_0^2uv\mathrm{d}x &= \int_0^2v\sin x\mathrm{d}x \\
+    -u'(2)v(2) + u'(0)\underbrace{v(0)}_0 + \int_0^2u'v'\mathrm{d}x - \int_0^2uv\mathrm{d}x &= \int_0^2v\sin x\mathrm{d}x \\
+    -\underbrace{u'(2)}_{u(2)}v(2) + \int_0^2u'v'\mathrm{d}x - \int_0^2uv\mathrm{d}x &= \int_0^2v\sin x\mathrm{d}x \\
+    \underbrace{-u(2)v(2) + \int_0^2u'v'\mathrm{d}x - \int_0^2uv\mathrm{d}x}_{B(u,v)} &= \underbrace{\int_0^2v\sin x\mathrm{d}x}_{L(v)} \\
+\end{align*}
+
+\pagebreak
+\section{Program}
+Program można włączyć na 2-sposoby:
+\begin{enumerate}
+    \item jednorazowo: \verb|julia rurki.jl|
+    \item interaktywnie:
+    \begin{itemize}
+        \item włączyć REPL \verb|julia|
+        \item \verb|julia> include("rurki.jl")|
+        \item \verb|julia> rurki.main(5)|
+        \item \verb|julia> rurki.main(50)|
+    \end{itemize}
+\end{enumerate}
+Interaktywnie można wygodniej i~szybciej
+testować różne parametry.
+Włączanie sposobem 1.~za każdym razem
+musi JIT kompilować kod. Interaktywnie
+dzieje się to tylko raz.
+
+\section{Wyniki}
+
+
+\end{document}
