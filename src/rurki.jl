@@ -34,11 +34,37 @@ int(f, a, b) = (b-a)/2 * sum( @. W_I * f( (b-a)/2 * X_I + (a+b)/2 ) )
 Helper macro that lets you write expressions like
 @int 0 1 x^2 dx
 or
-@int 0 2pi (@int 0 1 r dr) dphi
+@int 0 pi (@int 0 2sin(phi) r dr) dphi
 """
 macro int(a, b, expr, dvar)
     var = string(dvar)[2:end] |> Symbol
     esc(:( $int($var -> $expr, $a, $b) ))
+end
+
+# derivatives
+df(f, h) = x -> (f(x + h) - f(x - h)) / 2h
+d2f(f, h) = x -> (f(x + h) + f(x - h) - 2f(x)) / h^2
+
+"""
+Derivative macro. Not used, but julia is cool.
+@d x^2 dx 0.1
+returns a function(x) = 2x
+with h = 0.1.
+"""
+macro d(expr, dvar, h)
+    var = string(dvar)[2:end] |> Symbol
+    esc(:( $df($var -> $expr, $h) ))
+end
+
+"""
+Second derivative macro. Also not used.
+@d2 x^2 dx 0.1
+returns a function(x) = 2
+with h = 0.1.
+"""
+macro d2(expr, dvar, h)
+    var = string(dvar)[2:end] |> Symbol
+    esc(:( $d2f($var -> $expr, $h) ))
 end
 
 """
