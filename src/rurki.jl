@@ -3,6 +3,8 @@ module rurki
 using Plots
 using LinearAlgebra
 
+export fem
+
 """
 Gauss-Legendre nodes
 """
@@ -103,7 +105,19 @@ end
 B(u, du, v, dv, a, b) = -u(2)*v(2) + @int a b du(x)*dv(x) - u(x)*v(x) dx
 L(v, a, b) = @int a b v(x)*sin(x) dx
 
-function main(N)
+function fem(N::Int)
+    @assert N > 1
+
+    if N >= 3000
+        @warn "N is huge! Might take a while."
+    end
+
+    println("Problem definition:")
+    println("-u'' - u = sin(x)")
+    println("u(0) = 0")
+    println("u'(2) - u(2) = 0")
+    println("0 <= x <= 2")
+
     # domain
     a = 0
     b = 2
@@ -127,7 +141,11 @@ function main(N)
     )
     L_j = [L(_e(j), xi[max(1, j-1)], xi[min(j+1, n)]) for j=2:n]
 
-    display([B_ij L_j])
+    if N < 50
+        println("B | L matrix:")
+        show(stdout, "text/plain", [B_ij L_j])
+        println()
+    end
 
     @info "Solving"
     u_i = B_ij \ L_j
@@ -135,8 +153,11 @@ function main(N)
     # add left boundary condition
     u_i = [0; u_i]
 
-    @info "u"
-    display(u_i)
+    if N < 50
+        println("u vector:")
+        show(stdout, "text/plain", u_i)
+        println()
+    end
 
     # define computed function
     u(x) = sum([u_i[i] * e(xi, i, x) for i=1:n])
@@ -148,7 +169,10 @@ function main(N)
     xs = range(a, b, length=10n)
 
     @info "Plotting"
-    plot(xs, [u, real_u], legend=false) |> display
+    plot(xs, [u, real_u],
+        labels=["Computed" "Actual"],
+        title="N = $N",
+    ) |> display
 
     @info "Verification"
     # mean squared error
@@ -159,5 +183,3 @@ function main(N)
 end
 
 end # module
-
-# rurki.main.(3)
