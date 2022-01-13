@@ -166,7 +166,7 @@ function fem(N::Int)
     real_u(x) = 1/2 * (x * cos(x) + (sin(x) * (2sin(2) + cos(2))) / (cos(2) - sin(2)))
 
     # dense nodes for plotting
-    xs = range(a, b, length=10n)
+    xs = range(a, b, length=10N)
 
     @info "Plotting"
     plot(xs, [u, real_u],
