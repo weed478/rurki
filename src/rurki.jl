@@ -174,6 +174,18 @@ function fem(N::Int)
         title="N = $N",
     ) |> display
 
+    print("Save plot [y/N]? ")
+    flush(stdout)
+    resp = readline()
+    if length(resp) > 0 && resp[1] == 'y'
+        print("Enter filename: ")
+        flush(stdout)
+        name = readline()
+        @info "Saving plot to $name"
+        savefig(name)
+        @info "Saved"
+    end
+
     @info "Verification"
     # mean squared error
     mse = sum( @. (u(xs) - real_u(xs))^2 ) / length(xs)
