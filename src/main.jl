@@ -21,7 +21,7 @@ while true
     end
     N = parse(Int, input)
     @info "Running FEM"
-    rurki.fem(N)
+    rurki.fem.main(N)
     @info "Done"
 end
 

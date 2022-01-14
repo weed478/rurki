@@ -1,0 +1,108 @@
+\documentclass[12pt,a4paper]{mwart}
+
+\usepackage{lmodern}
+\usepackage[T1]{polski}
+\usepackage[utf8]{inputenc}
+
+\usepackage[a4paper,
+            tmargin=2cm,
+            bmargin=2cm,
+            lmargin=2cm,
+            rmargin=2cm,
+            bindingoffset=0cm]{geometry}
+
+\usepackage{tocloft}
+\usepackage{hyperref}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{siunitx}
+
+\usepackage{graphicx}
+\usepackage{subfig}
+\usepackage{float}
+\usepackage{booktabs}
+
+% Fedora 35 workaround
+\pdfmapfile{-mpfonts.map}
+
+\hypersetup{
+    colorlinks,
+    citecolor=black,
+    filecolor=black,
+    linkcolor=black,
+    urlcolor=black
+}
+
+\begin{document}
+
+\begin{align*}
+    -\frac{\mathrm{d}^2u}{\mathrm{d}x^2} - u &= \sin x \\
+    u(0) &= 0 \\
+    \frac{\mathrm{d}u(2)}{\mathrm{d}x} - u(2) &= 0 \\
+    [0,2] \ni x &\to u(x) \in \mathbb{R}
+\end{align*}
+
+\begin{align*}
+    f'(x) &= \frac{f(x+h)-f(x-h)}{2h} \\
+    f''(x) &= \frac{f(x+h) + f(x-h) - 2f(x)}{h^2}
+\end{align*}
+
+\begin{align*}
+    -u'' - u &= \sin x \\
+    -\frac{u(x+h) + u(x-h) - 2u(x)}{h^2} - u(x) &= \sin x \\
+    -\frac{u_{i+1} + u_{i-1} - 2u_i}{h^2} - u_i &= \sin x_i \\
+    u_{i-1}\left[\frac{-1}{h^2}\right] + u_i\left[\frac{2}{h^2}-1\right] + u_{i+1}\left[\frac{-1}{h^2}\right] &= \sin x_i
+\end{align*}
+
+\begin{align*}
+    u_0 &= 0
+\end{align*}
+
+\begin{align*}
+    u'(2) - u(2) &= 0 \\
+    \frac{u(2+h)-u(2-h)}{2h} - u(2) &= 0 \\
+    \frac{u_{n+1}-u_{n-1}}{2h} - u_n &= 0 \\
+    u_{n+1} - u_{n-1} - 2h u_n &= 0 \\
+    u_{n+1} &= u_{n-1} + 2h u_n \\
+\end{align*}
+
+\begin{align*}
+    u_{n-1}\left[\frac{-1}{h^2}\right] + u_n\left[\frac{2}{h^2}-1\right] + (u_{n-1} + 2h u_n)\left[\frac{-1}{h^2}\right] &= \sin x_n \\
+    u_{n-1}\left[\frac{-1}{h^2}\right] + u_n\left[\frac{2}{h^2}-1\right] + u_{n-1}\left[\frac{-1}{h^2}\right] + u_n\left[\frac{-2}{h}\right] &= \sin x_n \\
+    u_{n-1}\left[\frac{-2}{h^2}\right] + u_n\left[\frac{2}{h^2}-1-\frac{2}{h}\right] &= \sin x_n
+\end{align*}
+
+\begin{align*}
+    \left[
+    \begin{matrix}
+        1 & 0 & & & \cdots & & & & 0 \\
+        & & & \ddots & \\
+        \vdots & \cdots & 0 & \left[\frac{-1}{h^2}\right] & \left[\frac{2}{h^2}-1\right] & \left[\frac{-1}{h^2}\right] & 0 & \cdots & \vdots \\
+        & & & & & \ddots & \\
+        0 & & & & \cdots & & \left[\frac{-2}{h^2}\right] & \left[\frac{2}{h^2}-1-\frac{2}{h}\right]
+    \end{matrix}
+    \right]
+    \cdot
+    \left[
+    \begin{matrix}
+        u_0 \\
+        \\
+        \vdots \\
+        \\
+        u_n
+    \end{matrix}
+    \right]
+    =
+    \left[
+    \begin{matrix}
+        0 \\
+        \vdots \\
+        \sin x_i \\
+        \vdots \\
+        \sin x_n
+    \end{matrix}
+    \right]
+\end{align*}
+
+\end{document}
